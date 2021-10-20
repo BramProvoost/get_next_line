@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/10/01 09:00:41 by bprovoos      #+#    #+#                 */
-/*   Updated: 2021/10/20 14:41:41 by bprovoos      ########   odam.nl         */
+/*   Updated: 2021/10/20 21:14:03 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,34 +30,52 @@ size_t	ft_strlen(const char *str)
 	return (counter);
 }
 
+void	read_write(int r, int w)
+{
+	char	*buf;
+
+	buf = get_next_line(r);
+	if (buf == NULL)
+	{
+		write(w, "[NL](NULL)\n", 11);
+		return ;
+	}
+	write(w, "[NL]", 4);
+	write(w, buf, ft_strlen(buf));
+	write(w, "\n", 1);
+	free(buf);
+}
+
 int	main(void)
 {
 	int		linesToRead;
 	int		fd1;
 	int		fd2;
-	char	*buf1;
+	int		fd3;
+	int		fd4;
+	int		fd5;
+	int		fd6;
 
-	linesToRead = 1;
-	fd1 = open("test_get_next_line/read1.txt", O_RDONLY);
+	linesToRead = 7;
+	fd1 = open("test_get_next_line/read1.txt", O_CREAT | O_RDONLY);
 	system("rm -rf test_get_next_line/write1.txt");
 	fd2 = open("test_get_next_line/write1.txt", O_CREAT | O_WRONLY, 0644);
+	fd3 = open("test_get_next_line/read2.txt", O_CREAT | O_RDONLY);
+	system("rm -rf test_get_next_line/write2.txt");
+	fd4 = open("test_get_next_line/write2.txt", O_CREAT | O_WRONLY, 0644);
+	fd5 = open("test_get_next_line/read3.txt", O_CREAT | O_RDONLY);
+	system("rm -rf test_get_next_line/write3.txt");
+	fd6 = open("test_get_next_line/write3.txt", O_CREAT | O_WRONLY, 0644);
 	if (fd1 == -1)
-		printf("fd = -1\n");
+		printf("fd1 = -1\n");
+	if (fd3 == -1)
+		printf("fd3 = -1\n");
 	while (linesToRead > 0)
 	{
-		buf1 = get_next_line(fd1);
-		if (buf1 == NULL)
-		{
-			write(fd2, "[NL](NULL)", 10);
-			break ;
-		}
-		write(fd2, "[NL]", 4);
-		write(fd2, buf1, ft_strlen(buf1));
-		if (linesToRead != 1)
-		{
-			write(fd2, "\n", 1);
-		}
-		free(buf1);
+		read_write(fd1, fd2);
+		read_write(fd3, fd4);
+		read_write(fd1, fd2);
+		read_write(fd5, fd6);
 		linesToRead--;
 	}
 	// system("leaks a.out");

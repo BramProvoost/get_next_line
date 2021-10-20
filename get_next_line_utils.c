@@ -6,133 +6,110 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/30 10:50:20 by bprovoos      #+#    #+#                 */
-/*   Updated: 2021/10/12 21:30:37 by bprovoos      ########   odam.nl         */
+/*   Updated: 2021/10/20 17:14:34 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include <stdio.h>
-#include <stdlib.h>
+#include "get_next_line.h"
 
-// size_t	strlen(const char *str)
-// {
-// 	size_t	counter;
+static void	*ft_memset(void *str, int c, size_t n)
+{
+	unsigned char	*ptr;
+	size_t			i;
 
-// 	counter = 0;
-// 	if (!str)
-// 		return (0);
-// 	while (str[counter])
-// 		counter++;
-// 	return (counter);
-// }
+	ptr = (unsigned char *)str;
+	i = 0;
+	while (i < n)
+	{
+		ptr[i] = (unsigned char)c;
+		i++;
+	}
+	return (str);
+}
 
-// char	*strdup(const char *str)
-// {
-// 	char			*temp;
-// 	unsigned long	len;
-// 	unsigned long	i;
+static void	*ft_calloc(size_t count, size_t size)
+{
+	void	*ptr;
 
-// 	len = strlen(str);
-// 	temp = (char *)malloc(len + 1);
-// 	if (!temp)
-// 		return (NULL);
-// 	i = len;
-// 	len = 0;
-// 	while (len < i)
-// 	{
-// 		temp[len] = str[len];
-// 		len++;
-// 	}
-// 	temp[len] = '\0';
-// 	return (temp);
-// }
+	ptr = malloc(count * size);
+	if (ptr == NULL)
+		return (ptr);
+	ft_memset(ptr, '\0', size * count);
+	return (ptr);
+}
 
-// size_t	strlcpy(char *dst, const char *src, size_t dstsize)
-// {
-// 	size_t	i;
+size_t	ft_strlcat(char *dst, const char *src, size_t size)
+{
+	size_t	i;
+	size_t	j;
 
-// 	i = 0;
-// 	if (!dst || !src)
-// 		return (0);
-// 	if (dstsize < 1)
-// 	{
-// 		while (src[i])
-// 			i++;
-// 		return (i);
-// 	}
-// 	while (src[i] && i < dstsize - 1)
-// 	{
-// 		dst[i] = src[i];
-// 		i++;
-// 	}
-// 	if (i < dstsize)
-// 		dst[i] = '\0';
-// 	while (src[i])
-// 		i++;
-// 	return (i);
-// }
+	i = 0;
+	j = 0;
+	while (i < size && dst[i])
+		i++;
+	while (i + 1 < size && src[j])
+	{
+		dst[i] = src[j];
+		i++;
+		j++;
+	}
+	if (j > 0)
+		dst[i] = '\0';
+	while (src[j])
+	{
+		i++;
+		j++;
+	}
+	return (i);
+}
 
-// char	*substr(char const *s, size_t start, size_t len)
-// {
-// 	size_t	i;
-// 	size_t	j;
-// 	char	*str;
+size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
+{
+	size_t	i;
 
-// 	str = (char *)malloc(sizeof(*s) * (len + 1));
-// 	if (!str || !s)
-// 		return (NULL);
-// 	i = 0;
-// 	j = 0;
-// 	while (s[i])
-// 	{
-// 		if (i >= start && j < len)
-// 		{
-// 			str[j] = s[i];
-// 			j++;
-// 		}
-// 		i++;
-// 	}
-// 	str[j] = 0;
-// 	return (str);
-// }
+	i = 0;
+	if (!dst || !src)
+		return (0);
+	if (dstsize < 1)
+	{
+		while (src[i])
+			i++;
+		return (i);
+	}
+	while (src[i] && i < dstsize - 1)
+	{
+		dst[i] = src[i];
+		i++;
+	}
+	if (i < dstsize)
+		dst[i] = '\0';
+	while (src[i])
+		i++;
+	return (i);
+}
 
-// char	*strjoin(char *dst, char *src)
-// {
-// 	int		dstlen;
-// 	int		srclen;
-// 	char	*result;
-// 	int		needle1;
-// 	int		needle2;
+void	*ft_realloc(void *ptr, size_t size)
+{	
+	void	*temp;
 
-// 	dstlen = strlen(dst);
-// 	srclen = strlen(src);
-// 	result = malloc(sizeof(char) * (dstlen + srclen + 1));
-// 	if (!result)
-// 		return (NULL);
-// 	needle1 = 0;
-// 	while (needle1 < dstlen)
-// 	{
-// 		result[needle1] = dst[needle1];
-// 		needle1++;
-// 	}
-// 	needle2 = 0;
-// 	while (needle2 < srclen)
-// 	{
-// 		result[needle1 + needle2] = src[needle2];
-// 		needle2++;
-// 	}
-// 	result[needle1 + needle2] = '\0';
-// 	return (result);
-// }
+	if (ptr == NULL)
+		return (ft_calloc(1, size));
+	temp = ft_calloc(1, size);
+	ft_strlcpy(temp, ptr, size);
+	free(ptr);
+	return (temp);
+}
 
-// void	*ft_realloc(void *ptr, size_t len)
-// {
-// 	void	*real;
+/*
+static size_t	strlen(const char *str)
+{
+	size_t	counter;
 
-// 	real = malloc(len);
-// 	ft_memset(real, 0, len);
-// 	if (real)
-// 		ft_memcpy(real, ptr, len);
-// 	ptr = NULL;
-// 	free(ptr);
-// 	return (real);
-// }
+	counter = 0;
+	if (!str)
+		return (0);
+	while (str[counter])
+		counter++;
+	return (counter);
+}
+*/
