@@ -5,8 +5,8 @@
 /*                                                     +:+                    */
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2021/10/19 08:53:39 by bprovoos      #+#    #+#                 */
-/*   Updated: 2021/10/20 17:09:10 by bprovoos      ########   odam.nl         */
+/*   Created: 2021/11/04 16:46:57 by bprovoos      #+#    #+#                 */
+/*   Updated: 2021/11/24 11:00:51 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,25 @@
 #  define BUFFER_SIZE 0
 # endif
 
-# include <stdio.h>
-# include <unistd.h>
 # include <stdlib.h>
+# include <unistd.h>
+# include <stdio.h>
+# include <limits.h>
 
 char	*get_next_line(int fd);
 
-void	*ft_realloc(void *ptr, size_t size);
+int		fd_not_valid(int fd);
 
-size_t	ft_strlcat(char *dst, const char *src, size_t size);
+char	*str_join_until_nl(char *dst, char *src);
 
-size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
+int		no_nl_in(char *buffer);
+
+char	*my_malloc(char *dst, char *src);
+
+size_t	ft_strlen(const char *str);
+
+int		read_nothing_or_error(int read_return);
+
+void	save_str_after_nl(char *str);
 
 #endif

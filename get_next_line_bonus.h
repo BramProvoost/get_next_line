@@ -1,30 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   old_get_next_line.h                                :+:    :+:            */
+/*   get_next_line_bonus.h                              :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2021/09/29 09:26:29 by bprovoos      #+#    #+#                 */
-/*   Updated: 2021/10/19 08:53:19 by bprovoos      ########   odam.nl         */
+/*   Created: 2021/11/04 16:46:57 by bprovoos      #+#    #+#                 */
+/*   Updated: 2021/11/24 11:04:23 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef OLD_GET_NEXT_LINE_H
-# define OLD_GET_NEXT_LINE_H
+#ifndef GET_NEXT_LINE_BONUS_H
+# define GET_NEXT_LINE_BONUS_H
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 0
 # endif
 
-# include <unistd.h>
-# include <stddef.h>
 # include <stdlib.h>
+# include <unistd.h>
+# include <stdio.h>
+# include <limits.h>
 
 char	*get_next_line(int fd);
 
-void	*ft_memset(void *str, int c, size_t n);
+int		fd_not_valid(int fd);
 
-char	*ft_strlendump(const char *str, size_t length);
+char	*str_join_until_nl(char *dst, char *src);
+
+int		no_nl_in(char *buffer);
+
+char	*my_malloc(char *dst, char *src);
+
+size_t	ft_strlen(const char *str);
+
+int		read_nothing_or_error(int read_return);
+
+void	save_str_after_nl(char *str);
 
 #endif

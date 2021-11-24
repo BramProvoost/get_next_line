@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   get_next_line.c                                    :+:    :+:            */
+/*   get_next_line_bonus.c                              :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/11/04 10:48:01 by bprovoos      #+#    #+#                 */
-/*   Updated: 2021/11/24 11:13:29 by bprovoos      ########   odam.nl         */
+/*   Updated: 2021/11/24 11:13:40 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,26 +26,26 @@ While no nl had been read
 
 char	*get_next_line(int fd)
 {
-	static char	buffer[BUFFER_SIZE + 1];
+	static char	buffer[OPEN_MAX][BUFFER_SIZE];
 	char		*line;
 	int			read_return;
 
 	if (fd_not_valid(fd))
 		return (NULL);
 	line = NULL;
-	line = str_join_until_nl(line, buffer);
-	while (no_nl_in(buffer))
+	line = str_join_until_nl(line, buffer[fd]);
+	while (no_nl_in(buffer[fd]))
 	{
-		read_return = read(fd, buffer, BUFFER_SIZE);
+		read_return = read(fd, buffer[fd], BUFFER_SIZE);
 		if (read_nothing_or_error(read_return))
 		{
-			save_str_after_nl(buffer);
+			save_str_after_nl(buffer[fd]);
 			return (line);
 		}
-		buffer[read_return] = '\0';
-		line = str_join_until_nl(line, buffer);
+		buffer[fd][read_return] = '\0';
+		line = str_join_until_nl(line, buffer[fd]);
 	}
-	save_str_after_nl(buffer);
+	save_str_after_nl(buffer[fd]);
 	return (line);
 }
 

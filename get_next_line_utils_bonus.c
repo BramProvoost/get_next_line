@@ -1,22 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   main.h                                             :+:    :+:            */
+/*   get_next_line_utils_bonus.c                        :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2021/10/01 09:01:04 by bprovoos      #+#    #+#                 */
-/*   Updated: 2021/11/09 09:48:39 by bprovoos      ########   odam.nl         */
+/*   Created: 2021/11/04 16:50:24 by bprovoos      #+#    #+#                 */
+/*   Updated: 2021/11/24 11:03:54 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MAIN_H
-# define MAIN_H
+#include "get_next_line_bonus.h"
 
-# include <fcntl.h>
-# include <stdio.h>
-# include <unistd.h>
-# include <stdlib.h>
-# include "../get_next_line.h"
+int	fd_not_valid(int fd)
+{
+	return (fd < 0 || fd > OPEN_MAX);
+}
 
-#endif
+int	read_nothing_or_error(int read_return)
+{
+	return (read_return <= 0);
+}
+
+size_t	ft_strlen(const char *str)
+{
+	size_t	counter;
+
+	counter = 0;
+	if (!str)
+		return (0);
+	while (str[counter])
+		counter++;
+	return (counter);
+}
