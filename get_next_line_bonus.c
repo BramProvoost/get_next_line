@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/11/04 10:48:01 by bprovoos      #+#    #+#                 */
-/*   Updated: 2021/11/26 11:13:03 by bprovoos      ########   odam.nl         */
+/*   Updated: 2021/11/26 12:19:44 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,15 +82,11 @@ char	*my_malloc(char *dst, char *src)
 	const int	dst_len = ft_strlen(dst);
 	const int	src_len = ft_strlen(src);
 
-	if (dst_len + src_len == 0)
-	{
-		free(dst);
-		return (NULL);
-	}
 	str = malloc(dst_len + src_len + 1);
-	if (!str)
+	if (!str || dst_len + src_len == 0)
 	{
 		free(dst);
+		free(str);
 		return (NULL);
 	}
 	return (str);
