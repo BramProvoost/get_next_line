@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/11/04 10:48:01 by bprovoos      #+#    #+#                 */
-/*   Updated: 2021/11/24 11:13:29 by bprovoos      ########   odam.nl         */
+/*   Updated: 2021/11/26 11:56:54 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,11 @@ char	*get_next_line(int fd)
 	{
 		read_return = read(fd, buffer, BUFFER_SIZE);
 		if (read_nothing_or_error(read_return))
-		{
-			save_str_after_nl(buffer);
-			return (line);
-		}
+			break ;
 		buffer[read_return] = '\0';
 		line = str_join_until_nl(line, buffer);
+		if (!line)
+			return (NULL);
 	}
 	save_str_after_nl(buffer);
 	return (line);
@@ -79,12 +78,10 @@ char	*str_join_until_nl(char *dst, char *src)
 
 char	*my_malloc(char *dst, char *src)
 {
-	char	*str;
-	int		dst_len;
-	int		src_len;
+	char		*str;
+	const int	dst_len = ft_strlen(dst);
+	const int	src_len = ft_strlen(src);
 
-	dst_len = ft_strlen(dst);
-	src_len = ft_strlen(src);
 	if (dst_len + src_len == 0)
 	{
 		free(dst);
@@ -92,7 +89,10 @@ char	*my_malloc(char *dst, char *src)
 	}
 	str = malloc(dst_len + src_len + 1);
 	if (!str)
-		str = NULL;
+	{
+		free(dst);
+		return (NULL);
+	}
 	return (str);
 }
 
